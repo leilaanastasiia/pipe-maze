@@ -41,16 +41,6 @@ class PipeMaze:
         ".": set(),
     }
 
-    # 3x3 grid
-    EXPANDED_PATTERN: Dict[str, List[Tuple[int, int]]] = {
-        "|": [(0, 1), (1, 1), (2, 1)],
-        "-": [(1, 0), (1, 1), (1, 2)],
-        "L": [(0, 1), (1, 1), (1, 2)],  # N, E
-        "J": [(0, 1), (1, 1), (1, 0)],  # N, W
-        "7": [(1, 0), (1, 1), (2, 1)],  # S, W
-        "F": [(1, 2), (1, 1), (2, 1)],  # S, E
-    }
-
     RED = "\033[91m"
     RESET = "\033[0m"
 
@@ -95,8 +85,8 @@ class PipeMaze:
         raise ValueError("Unable to determine the shape of the pipe for the starting point.")
 
     def _get_dirs(self, r: int, c: int) -> Set[str]:
-        ch = self.grid[r][c]
-        return self.start_dirs if ch == "S" else self.CONNECTIONS.get(ch, set())
+        item = self.grid[r][c]
+        return self.start_dirs if item == "S" else self.CONNECTIONS.get(item, set())
 
     def neighbors(self, r: int, c: int) -> List[Tuple[int, int]]:
         """
@@ -198,7 +188,7 @@ class PipeMaze:
                     continue
 
                 item = self.grid[r][c]
-                line.append(pretty_map.get(item, item))
+                line.append(pretty_map.get(item, item)) # dict.get(key, default)
 
             print("".join(line))
 
